@@ -1,10 +1,10 @@
+# Allow all user agents
 User-agent: *
 Disallow: /private/         # Exclude private folders or paths
 Disallow: /cgi-bin/         # Exclude CGI directories (if any)
 
+# Allow full site crawling of all content
+Allow: /
+
 # Sitemap URL
 Sitemap: https://afsukool.github.io/alert/sitemap.xml
-
-# Allow full site crawling
-User-agent: *
-Allow: /
