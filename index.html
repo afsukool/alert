@@ -65,21 +65,21 @@
 
 <body>
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center">
+   <!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
 
-            <a href="index.html" class="logo me-auto">
-                <img src="assets/img/logo.png" alt="Alert Looklive Logo" class="img-fluid">
-            </a>
+        <a href="index.html" class="logo me-auto">
+            <img src="assets/img/logo.png" alt="Alert Looklive Logo" class="img-fluid">
+        </a>
 
-            <nav id="navbar" class="navbar navbar-expand-lg">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <nav id="navbar" class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#services">Services</a></li>
@@ -89,12 +89,13 @@
                     <li class="nav-item"><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li>
                     <li class="nav-item"><a class="nav-link scrollto" href="#contact">Contact</a></li>
                     <li class="nav-item"><a class="getstarted scrollto" href="#about">Get Started</a></li>
-                    </ul>
-                </div>
-            </nav><!-- .navbar -->
+                </ul>
+            </div>
+        </nav><!-- .navbar -->
 
-        </div>
-    </header><!-- End Header -->
+    </div>
+</header><!-- End Header -->
+
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
@@ -606,13 +607,24 @@
     <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-       <script>
-    document.querySelector('.navbar-toggler').addEventListener('click', function () {
-        console.log('Hamburger menu clicked!');
+    <!-- Bootstrap JS (already present in your footer) -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom Script for Toggle Menu -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var navbarCollapse = document.querySelector('#navbarSupportedContent');
+
+        navbarToggler.addEventListener('click', function () {
+            navbarCollapse.classList.toggle('show');
+        });
     });
 </script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+      
 </body>
 
 </html>
