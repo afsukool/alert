@@ -478,18 +478,38 @@
                     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15696.092630211813!2d76.1035525!3d10.4197353!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba7f37dfdf15125%3A0xeb6c222115c98716!2sALERT%20CCTV%20Nattika!5e0!3m2!1sen!2sae!4v1703232600247!5m2!1sen!2sae" width="100%" height="290px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
-                <form action="send_email.php" method="POST">
+                <form action="send_email.php" method="POST" class="needs-validation" novalidate>
     <div class="row">
         <div class="col-lg-6">
-            <input type="text" name="name" placeholder="Your Name" required>
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+            </div>
         </div>
         <div class="col-lg-6">
-            <input type="email" name="email" placeholder="Your Email" required>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
         </div>
     </div>
-    <textarea name="message" rows="5" placeholder="Message" required></textarea>
-    <div class="text-center"><button type="submit">Send Message</button></div>
+    <div class="form-group">
+        <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+        <div class="invalid-feedback">Please enter your message.</div>
+    </div>
+
+    <!-- Google reCAPTCHA -->
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+    <div class="invalid-feedback">Please complete the CAPTCHA.</div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+    </div>
 </form>
+
+<!-- Include Google reCAPTCHA API -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
             </div>
         </section><!-- End Contact Section -->
