@@ -4,10 +4,13 @@ Header set X-Frame-Options "DENY"
 Header set X-XSS-Protection "1; mode=block"
 Header set Referrer-Policy "no-referrer-when-downgrade"
 Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; script-src 'self' https://trusted-sources.com; style-src 'self' 'unsafe-inline';"
 
-# Allow CORS for API endpoints
+# Allow CORS for API endpoints (Restrict to trusted domains)
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Origin "https://trusted-domain.com"
+    Header set Access-Control-Allow-Methods "GET,POST,OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 </IfModule>
 
 # Force HTTPS (if applicable)
@@ -15,13 +18,15 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Redirects to non-www (if applicable)
+# Redirect to non-www (if applicable)
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 # Enable Gzip Compression
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml application/xml application/rss+xml
+  # Exclude certain file types from compression
+  SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|mp4|avi|mkv)$ no-gzip dont-vary
 </IfModule>
 
 # Browser Caching for static assets
@@ -37,4 +42,23 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/x-shockwave-flash "access plus 1 month"
     ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType application/json "access plus 1 week"
+    ExpiresByType application/xml "access plus 1 week"
+    ExpiresByType image/svg+xml "access plus 1 year"
 </IfModule>
+
+# Leverage browser caching for fonts
+<IfModule mod_expires.c>
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Disable Directory Browsing
+Options -Indexes
+
+# Prevent file access to .htaccess, .env, and other sensitive files
+<FilesMatch "^\.">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
