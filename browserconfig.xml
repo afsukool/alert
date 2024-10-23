@@ -8,5 +8,14 @@
       <square310x310logo src="/assets/img/tile-large.png"/>
       <TileColor>#00a1f1</TileColor>
     </tile>
+    <notification>
+      <polling-uri src="https://afsukool.github.io/alert/notifications"/>
+      <frequency>30</frequency>
+      <cycle>1</cycle>
+      <fallback>
+        <polling-uri src="https://afsukool.github.io/alert/fallback"/>
+      </fallback>
+    </notification>
   </msapplication>
 </browserconfig>
+
