@@ -1,6 +1,10 @@
 User-agent: *
-Disallow: /private/
-Disallow: /tmp/
-Allow: /
+Disallow: /private/         # Exclude private folders or paths
+Disallow: /cgi-bin/         # Exclude CGI directories (if any)
 
-Sitemap: http://www.alertlooklive.in/sitemap.xml
+# Sitemap URL
+Sitemap: https://afsukool.github.io/alert/sitemap.xml
+
+# Allow full site crawling
+User-agent: *
+Allow: /
