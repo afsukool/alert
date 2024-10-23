@@ -1,0 +1,8 @@
+# Security.txt - Responsible Disclosure Information
+
+Contact: mailto:security@afsukool.github.io
+Encryption: https://afsukool.github.io/alert/pgp-key.txt
+Acknowledgements: https://afsukool.github.io/alert/hall-of-fame.html
+Preferred-Languages: en
+Policy: https://afsukool.github.io/alert/security-policy.html
+Hiring: https://afsukool.github.io/alert/careers
