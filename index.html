@@ -478,18 +478,18 @@
                     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15696.092630211813!2d76.1035525!3d10.4197353!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba7f37dfdf15125%3A0xeb6c222115c98716!2sALERT%20CCTV%20Nattika!5e0!3m2!1sen!2sae!4v1703232600247!5m2!1sen!2sae" width="100%" height="290px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
-                <form action="https://formspree.io/f/{your_form_id}" method="POST">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <input type="text" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="email" name="email" placeholder="Your Email" required>
-                        </div>
-                    </div>
-                    <textarea name="message" rows="5" placeholder="Message" required></textarea>
-                    <div class="text-center"><button type="submit">Send Message</button></div>
-                </form>
+                <form action="send_email.php" method="POST">
+    <div class="row">
+        <div class="col-lg-6">
+            <input type="text" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="col-lg-6">
+            <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+    </div>
+    <textarea name="message" rows="5" placeholder="Message" required></textarea>
+    <div class="text-center"><button type="submit">Send Message</button></div>
+</form>
 
             </div>
         </section><!-- End Contact Section -->
