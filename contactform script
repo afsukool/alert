@@ -1,0 +1,34 @@
+<!-- Contact Form -->
+<div class="container mt-4"> <!-- Added mt-4 for margin-top -->
+    <form action="send_email.php" method="POST" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                    <div class="invalid-feedback">Please enter your name.</div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+            <div class="invalid-feedback">Please enter your message.</div>
+        </div>
+
+        <!-- Google reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+        <div class="invalid-feedback">Please complete the CAPTCHA.</div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+        </div>
+    </form>
+
+    <!-- Include Google reCAPTCHA API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</div>
