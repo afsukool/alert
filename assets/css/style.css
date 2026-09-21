@@ -254,3 +254,16 @@ form.enquiry{display:grid;gap:1rem}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 @media print{.site-header,.mbar,.site-footer{display:none}}
 .enquiry-wrap{display:grid;gap:2rem;align-items:start}
+/* hero visual (network canvas) */
+.viz{position:relative;aspect-ratio:4/5;border-radius:.5rem 3.2rem .5rem 3.2rem;overflow:hidden;background:radial-gradient(120% 80% at 15% 100%,rgba(216,35,42,.28),transparent 55%),linear-gradient(160deg,#22394a,#13212b 70%)}
+.viz canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.viz-ui{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.viz-ui *{fill:none;stroke:rgba(255,255,255,.55);stroke-width:2;stroke-linecap:round}
+.viz-ui .ring{stroke:rgba(255,255,255,.22);stroke-width:1.5}
+.viz-ui .dot{fill:#d8232a;stroke:none}
+.viz-sweep{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1;margin:-31% 0 0 -31%;border-radius:50%;background:conic-gradient(from 0deg,rgba(216,35,42,.4),rgba(216,35,42,0) 28%,rgba(216,35,42,0) 100%);animation:sweep 7s linear infinite;pointer-events:none}
+.viz-live{position:absolute;left:1rem;top:1rem;display:flex;align-items:center;gap:.45rem;color:#fff;font:700 .85rem/1 var(--f-head);letter-spacing:.08em;background:rgba(19,33,43,.55);padding:.4rem .7rem;border-radius:999px}
+.viz-live::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:#ff4d52;animation:blink 1.6s ease-in-out infinite}
+@keyframes sweep{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.viz-sweep{animation:none;opacity:.6}.viz-live::before{animation:none}}
