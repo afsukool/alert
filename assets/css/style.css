@@ -254,6 +254,7 @@ form.enquiry{display:grid;gap:1rem}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 @media print{.site-header,.mbar,.site-footer{display:none}}
 .enquiry-wrap{display:grid;gap:2rem;align-items:start}
+
 /* hero visual (network canvas) */
 .viz{position:relative;aspect-ratio:4/5;border-radius:.5rem 3.2rem .5rem 3.2rem;overflow:hidden;background:radial-gradient(120% 80% at 15% 100%,rgba(216,35,42,.28),transparent 55%),linear-gradient(160deg,#22394a,#13212b 70%)}
 .viz canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -275,3 +276,20 @@ form.enquiry{display:grid;gap:1rem}
 @keyframes vzsweep{from{transform:rotate(-7deg)}to{transform:rotate(6deg)}}
 @keyframes vzpulse{50%{opacity:.45}}
 @media (prefers-reduced-motion:reduce){.vz-cone,.vz-box{animation:none}}
+
+/* service visuals */
+.svc--vis{padding:0;overflow:hidden}
+.svc-thumb{aspect-ratio:16/10;background:#13212b;overflow:hidden}
+.svc-thumb svg{width:100%;height:100%;display:block}
+.svc--vis .svc-inner{padding:1.5rem;display:flex;flex-direction:column;flex:1}
+.svc--vis .svc-inner .link{margin-top:auto}
+.svc-photo .svc-visual{aspect-ratio:440/340;min-height:0;height:auto}
+.vz-flow{stroke-dasharray:6 8;animation:vzflow 1.4s linear infinite}
+.vz-blink{animation:vzblink 2.2s ease-in-out infinite}
+.vz-approach{animation:vzapproach 5s ease-in-out infinite}
+.vz-ring{transform-box:fill-box;transform-origin:center;animation:vzring 2.6s ease-out infinite}
+@keyframes vzflow{to{stroke-dashoffset:-14}}
+@keyframes vzblink{50%{opacity:.25}}
+@keyframes vzapproach{0%{transform:translateY(26px);opacity:0}15%{opacity:1}60%,85%{transform:translateY(-16px);opacity:1}100%{transform:translateY(-16px);opacity:0}}
+@keyframes vzring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+@media (prefers-reduced-motion:reduce){.vz-flow,.vz-blink,.vz-approach,.vz-ring{animation:none}}

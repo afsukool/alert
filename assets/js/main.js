@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  var WA = "919037848878";
+  var WA = "918086446819";
 
   /* mobile navigation */
   var toggle = document.querySelector(".nav-toggle");
@@ -78,7 +78,7 @@
         form.reset();
         status.textContent = "Thank you, " + data.name + ". Your enquiry has been sent to Alert LookLive. We will contact you on the number you gave.";
       }).catch(function () {
-        status.textContent = "Your enquiry could not be sent. Please call +91 9037 848 878 or use WhatsApp instead.";
+        status.textContent = "Your enquiry could not be sent. Please call +91 8086 446 819 or use WhatsApp instead.";
       });
       return;
     }
