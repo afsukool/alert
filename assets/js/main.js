@@ -26,73 +26,74 @@
     (window.dataLayer = window.dataLayer || []).push({ event: "cta_click", cta: el.getAttribute("data-track") });
   });
 
-  /* enquiry form */
-  var form = document.getElementById("contact-form");
-  if (!form) return;
-  var endpoint = form.getAttribute("data-endpoint") || "";
-  var status = document.getElementById("form-status");
-  var note = document.getElementById("form-note");
-  if (!endpoint && note) {
-    note.textContent = "Pressing Request a quote opens WhatsApp with your details filled in. Press send there to reach us. You can also call or email us directly.";
-  }
-  form.removeAttribute("action");
-  form.setAttribute("novalidate", "novalidate");
+  /* lead forms: contact, site visit, CCTV package */
+  var forms = document.querySelectorAll("form[data-lead]");
+  Array.prototype.forEach.call(forms, initForm);
 
-  function setErr(id, msg) {
-    var input = document.getElementById(id);
-    var err = document.getElementById(id + "-err");
-    if (msg) { input.setAttribute("aria-invalid", "true"); err.textContent = msg; }
-    else { input.removeAttribute("aria-invalid"); err.textContent = ""; }
-    return !msg;
-  }
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var v = function (id) { return (document.getElementById(id).value || "").trim(); };
-    var digits = v("f-phone").replace(/\D/g, "");
-    var okName = setErr("f-name", v("f-name") ? "" : "Enter your name.");
-    var okPhone = setErr("f-phone", digits.length >= 8 ? "" : "Enter a phone number we can call, with at least 8 digits.");
-    var email = v("f-email");
-    var okEmail = setErr("f-email", !email || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? "" : "Enter a valid email address or leave it blank.");
-    if (!(okName && okPhone && okEmail)) {
-      var bad = form.querySelector("[aria-invalid='true']");
-      if (bad) bad.focus();
-      return;
+  function initForm(form) {
+    var endpoint = (window.ALERT_CONFIG && window.ALERT_CONFIG.formEndpoint) || "";
+    var status = form.querySelector(".form-status");
+    var note = form.querySelector(".form-note");
+    if (!endpoint && note) {
+      note.textContent = "Pressing the button opens WhatsApp with your details filled in. Press send there to reach us. You can also call or email us directly.";
     }
-    if (v("f-website")) return; /* honeypot */
+    form.removeAttribute("action");
+    form.setAttribute("novalidate", "novalidate");
 
-    var data = {
-      name: v("f-name"), phone: v("f-phone"), email: email, location: v("f-location"),
-      service: v("f-service"), message: v("f-message")
-    };
-    (window.dataLayer = window.dataLayer || []).push({ event: "quote_request", service: data.service });
+    function setErr(input, msg) {
+      if (!input) return true;
+      var err = document.getElementById(input.id + "-err");
+      if (msg) { input.setAttribute("aria-invalid", "true"); if (err) err.textContent = msg; }
+      else { input.removeAttribute("aria-invalid"); if (err) err.textContent = ""; }
+      return !msg;
+    }
 
-    if (endpoint) {
-      status.textContent = "Sending your enquiry...";
-      fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(data)
-      }).then(function (r) {
-        if (!r.ok) throw new Error("bad response");
-        form.reset();
-        status.textContent = "Thank you, " + data.name + ". Your enquiry has been sent to Alert LookLive. We will contact you on the number you gave.";
-      }).catch(function () {
-        status.textContent = "Your enquiry could not be sent. Please call +91 8086 446 819 or use WhatsApp instead.";
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = form.querySelector("[name=name]"), phone = form.querySelector("[name=phone]"), email = form.querySelector("[name=email]"), loc = form.querySelector("[name=location]");
+      var okName = setErr(name, name.value.trim() ? "" : "Enter your name.");
+      var okPhone = setErr(phone, phone.value.replace(/\D/g, "").length >= 8 ? "" : "Enter a phone number we can call, with at least 8 digits.");
+      var okEmail = setErr(email, !email || !email.value.trim() || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim()) ? "" : "Enter a valid email address or leave it blank.");
+      var okLoc = true;
+      if (loc && loc.hasAttribute("required")) okLoc = setErr(loc, loc.value.trim() ? "" : "Enter the town or area of the site.");
+      if (!(okName && okPhone && okEmail && okLoc)) {
+        var bad = form.querySelector("[aria-invalid='true']");
+        if (bad) bad.focus();
+        return;
+      }
+      var hp = form.querySelector("[name=website]");
+      if (hp && hp.value) return; /* honeypot */
+
+      var lines = [form.getAttribute("data-intro") || "Hello Alert LookLive, I have an enquiry."];
+      var data = { form: form.getAttribute("data-subject") || "Website enquiry" };
+      Array.prototype.forEach.call(form.querySelectorAll("[data-label]"), function (el) {
+        var isChoice = el.type === "checkbox" || el.type === "radio";
+        var val = (isChoice ? (el.checked ? (el.value || "Yes") : "") : (el.value || "")).trim();
+        if (!val) return;
+        var label = el.getAttribute("data-label");
+        data[label] = val;
+        lines.push(val.indexOf("\n") > -1 ? label + ":\n" + val : label + ": " + val);
       });
-      return;
-    }
+      (window.dataLayer = window.dataLayer || []).push({ event: "lead_submit", form: data.form });
 
-    var lines = [
-      "Hello Alert LookLive, I would like a quote.",
-      "Name: " + data.name,
-      "Phone: " + data.phone
-    ];
-    if (data.email) lines.push("Email: " + data.email);
-    if (data.location) lines.push("Location: " + data.location);
-    if (data.service) lines.push("Service: " + data.service);
-    if (data.message) lines.push("Details: " + data.message);
-    window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
-    status.textContent = "WhatsApp has opened with your enquiry. Press send there to reach us.";
-  });
+      if (endpoint) {
+        status.textContent = "Sending your request...";
+        fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(data)
+        }).then(function (r) {
+          if (!r.ok) throw new Error("bad response");
+          status.textContent = "Thank you, " + name.value.trim() + ". Your request has been sent to Alert LookLive. We will contact you on the number you gave.";
+          form.reset();
+          form.dispatchEvent(new Event("reset"));
+        }).catch(function () {
+          status.textContent = "Your request could not be sent. Please call +91 8086 446 819 or use WhatsApp instead.";
+        });
+        return;
+      }
+      window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
+      status.textContent = "WhatsApp has opened with your request. Press send there to reach us.";
+    });
+  }
 })();
